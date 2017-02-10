@@ -21,11 +21,11 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36
 def scrape():
     listaArticulos=[]
     log("solicitando principal")
-    page = request("http://eltiempo.com")
+    page = request("http://www.larepublica.co")
 
     soup = BeautifulSoup( page , 'html5lib')
 
-    for unArticulo in soup.find_all('div',class_="main_article"):
+    for unArticulo in soup.find_all('div',class_="wrapNew"):
         nuevoArticulo=articulo()
         nuevoArticulo.titulo=unArticulo.a.string
         nuevoArticulo.link=unArticulo.a['href']
@@ -33,7 +33,7 @@ def scrape():
 
         is_relative_article_link = nuevoArticulo.link.startswith('/')
         if is_relative_article_link:
-            nuevoArticulo.link = "http://www.eltiempo.com" + nuevoArticulo.link
+            nuevoArticulo.link = "http://www.larepublica.co" + nuevoArticulo.link
         noodles = BeautifulSoup(request(nuevoArticulo.link),'html5lib')
         nuevoArticulo.contenido = (noodles.find('div',id="contenido"))
 
